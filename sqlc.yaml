@@ -1,0 +1,31 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "./internal/store/pgstore/sql/users.sql"  # Путь к файлам с SQL-запросами
+    schema: "./pkg/database/schema/schema.sql" # Путь к схеме базы данных
+    database:
+      uri: "postgres://postgres_user:postgres_password@localhost:5430/postgres_db" # DSN к вашей БД
+    gen:
+      go:
+        package: "pgstore"                # Имя Go-пакета
+        out: "./internal/store/pgstore"   # Путь для генерации
+        sql_package: "pgx/v5"              # Используемая библиотека
+        emit_interface: true               # Сгенерировать интерфейс
+        emit_enum_valid_method: true       # Валидация для ENUM
+        emit_empty_slices: true            # Пустые слайсы вместо nil
+        emit_db_tags: true                 # Теги `db` в моделях
+        emit_json_tags: true               # Теги `json` в моделях
+        initialisms: ["id", "url"]         # Учитывать сокращения
+        overrides:
+          - db_type: "uuid"
+            go_type:
+              import: "github.com/google/uuid"
+              type: "UUID"
+          - db_type: "uuid"
+            nullable: true
+            go_type:
+              import: "github.com/google/uuid"
+              type: "NullUUID"
+          - db_type: "jsonb"
+            go_type:
+              type: "string"
