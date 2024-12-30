@@ -1,4 +1,4 @@
-package auth
+package authservice
 
 import (
 	"context"
@@ -26,9 +26,6 @@ func (dto RegisterParams) Validate() error {
 	}
 	if len(dto.Password) < 6 || len(dto.Password) > 256 {
 		return errorz.ErrPasswordLength
-	}
-	if strings.Contains(dto.Password, " ") {
-		return errorz.ErrPasswordMustNotContainsSpace
 	}
 
 	return nil

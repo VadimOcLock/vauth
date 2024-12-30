@@ -1,4 +1,4 @@
-package auth
+package authservice
 
 import (
 	"context"
@@ -17,9 +17,6 @@ type LoginParams struct {
 func (dto LoginParams) Validate() error {
 	if strings.TrimSpace(dto.Email) == "" {
 		return errorz.ErrLoginMustNotBeEmpty
-	}
-	if strings.TrimSpace(dto.Password) == "" {
-		return errorz.ErrPasswordMustNotBeEmpty
 	}
 
 	return nil

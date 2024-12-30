@@ -55,20 +55,25 @@ type creatorImpl struct {
 	verifyTokenTTL  time.Duration
 }
 
-func NewCreator(secretKey []byte, opts ...CreatorOption) (Creator, error) {
-	if len(secretKey) == 0 {
+type CreatorConfig struct {
+	SecretKey []byte
+	TokenOpts []CreatorOption
+}
+
+func NewCreator(cfg CreatorConfig) (Creator, error) {
+	if len(cfg.SecretKey) == 0 {
 		return nil, werr.Wrap(errorz.ErrJWTSecretKeyRequired)
 	}
 
 	creator := &creatorImpl{
-		secretKey:       secretKey,
+		secretKey:       cfg.SecretKey,
 		accessTokenTTL:  defaultAccessTokenTTL,
 		refreshTokenTTL: defaultRefreshTokenTTL,
 		resetTokenTTL:   defaultResetTokenTTL,
 		verifyTokenTTL:  defaultVerifyTokenTTL,
 	}
 
-	for _, opt := range opts {
+	for _, opt := range cfg.TokenOpts {
 		opt(creator)
 	}
 

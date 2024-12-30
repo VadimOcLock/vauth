@@ -2,29 +2,26 @@ package main
 
 import (
 	"context"
-	"github.com/github.com/VadimOcLock/vauth/pkg/auth"
+	"github.com/github.com/VadimOcLock/vauth/pkg/authservice"
 	"github.com/github.com/VadimOcLock/vauth/pkg/jwtgen"
 	"log"
-	"time"
 )
 
 func main() {
-	service, err := auth.NewService(auth.Config{
-		DatabaseDSN: "postgres://postgres_user:postgres_password@localhost:5430/postgres_db",
-		JWTConfig: jwtgen.Config{
-			SecretKey:       []byte("super-secret-key"),
-			AccessTokenTTL:  24 * time.Hour,
-			RefreshTokenTTL: 24 * time.Hour,
-		},
+
+	client, err := authservice.NewClient(authservice.Config{
+		PgClient:  nil,
+		JWTConfig: jwtgen.CreatorConfig{},
 	})
 	if err != nil {
 		log.Fatalf("Ошибка инициализации сервиса: %v", err)
 	}
 
 	ctx := context.Background()
+	service.User.Register(ctx, userservice.RegisterParams{})
 
-	token, err := service.Register(ctx, auth.RegisterParams{
-		Email:    "user@example.com",
+	token, err := service.Register(ctx, userservice.RegisterParams{
+		Email:    "userservice@example.com",
 		Password: "securePassword123!",
 		Permissions: []string{
 			"read",
@@ -37,7 +34,7 @@ func main() {
 
 	log.Printf("Успешная регистрация пользователя. Сгенерированный токен: %s", token)
 
-	token, err = service.Login(ctx, auth.LoginParams{
+	token, err = service.Login(ctx, userservice.LoginParams{
 		Email:    "user2@example.com",
 		Password: "securePassword123!",
 	})
