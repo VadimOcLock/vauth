@@ -92,6 +92,9 @@ func New(cfg Config, options ...Option) (*Client, error) {
 	if client.codeGenerator == nil {
 		client.codeGenerator = codegen.NewGenerator()
 	}
+	if client.sendEmailFn == nil {
+		return nil, werr.Wrap(errorz.ErrEmailSendFunctionMissed)
+	}
 
 	return client, nil
 }
