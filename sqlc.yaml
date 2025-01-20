@@ -1,10 +1,10 @@
 version: "2"
 sql:
   - engine: "postgresql"
-    queries: "./internal/store/pgstore/sql/users.sql"  # Путь к файлам с SQL-запросами
-    schema: "./pkg/database/schema/schema.sql" # Путь к схеме базы данных
+    queries: "./internal/store/pgstore/sql/queries.sql"  # Путь к файлам с SQL-запросами
+    schema: "./database/schema/schema.sql" # Путь к схеме базы данных
     database:
-      uri: "postgres://postgres_user:postgres_password@localhost:5430/postgres_db" # DSN к вашей БД
+      uri: "postgres://postgres_user:postgres_password@localhost:5430/postgres_db?sslmode=disable" # DSN к вашей БД
     gen:
       go:
         package: "pgstore"                # Имя Go-пакета

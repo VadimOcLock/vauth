@@ -1,8 +1,9 @@
 package entity
 
 import (
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type User struct {
@@ -11,7 +12,5 @@ type User struct {
 	PasswordHash string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
-	Permissions  []string
-	IsActive     bool
 	IsVerified   bool
 }

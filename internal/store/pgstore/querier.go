@@ -11,9 +11,14 @@ import (
 )
 
 type Querier interface {
+	CreateEmailConfirmation(ctx context.Context, arg CreateEmailConfirmationParams) (uuid.UUID, error)
+	CreateToken(ctx context.Context, arg CreateTokenParams) (uuid.UUID, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (uuid.UUID, error)
 	ExistsUserByEmail(ctx context.Context, email string) (bool, error)
+	FindUserByConfirmationCode(ctx context.Context, code string) (User, error)
 	FindUserByEmail(ctx context.Context, email string) (User, error)
+	UpdateUserAsVerified(ctx context.Context, email string) (bool, error)
+	UpdateUserPassword(ctx context.Context, arg UpdateUserPasswordParams) (bool, error)
 }
 
 var _ Querier = (*Queries)(nil)
