@@ -53,7 +53,7 @@ func (c Client) ForgotPassword(ctx context.Context, dto ForgotPasswordParams) er
 		return werr.Wrap(err)
 	}
 
-	if err = c.sendEmailFn(ctx, dto.Email, resetCode.Code); err != nil {
+	if err = c.emailSenderHook(ctx, dto.Email, resetCode.Code); err != nil {
 		return werr.Wrap(err)
 	}
 

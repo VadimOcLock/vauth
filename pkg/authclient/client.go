@@ -13,21 +13,21 @@ import (
 )
 
 type Client struct {
-	store         store.Store
-	jwtCreator    jwtgen.Creator
-	hasher        hash.Hasher
-	codeGenerator codegen.Generator
-	sendEmailFn   SendEmailFn
+	store           store.Store
+	jwtCreator      jwtgen.Creator
+	hasher          hash.Hasher
+	codeGenerator   codegen.Generator
+	emailSenderHook EmailSenderHook
 }
 
 type Config struct {
-	PgClient     *pgxpool.Pool
-	JWTConfig    jwtgen.CreatorConfig
-	HasherConfig hash.Config
-	SendEmailFn  SendEmailFn
+	PgClient        *pgxpool.Pool
+	JWTConfig       jwtgen.CreatorConfig
+	HasherConfig    hash.Config
+	EmailSenderHook EmailSenderHook
 }
 
-type SendEmailFn func(ctx context.Context, email string, code string) error
+type EmailSenderHook func(ctx context.Context, email string, code string) error
 
 type Option func(*Client) error
 
@@ -65,7 +65,7 @@ func WithCodeGenerator(codeGen codegen.Generator) Option {
 
 func New(cfg Config, options ...Option) (*Client, error) {
 	client := &Client{
-		sendEmailFn: cfg.SendEmailFn,
+		emailSenderHook: cfg.EmailSenderHook,
 	}
 
 	for _, opt := range options {
@@ -92,7 +92,7 @@ func New(cfg Config, options ...Option) (*Client, error) {
 	if client.codeGenerator == nil {
 		client.codeGenerator = codegen.NewGenerator()
 	}
-	if client.sendEmailFn == nil {
+	if client.emailSenderHook == nil {
 		return nil, werr.Wrap(errorz.ErrEmailSendFunctionMissed)
 	}
 

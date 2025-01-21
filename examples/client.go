@@ -25,7 +25,7 @@ func main() {
 		JWTConfig: jwtgen.CreatorConfig{
 			SecretKey: []byte("secret_key"),
 		},
-		SendEmailFn: func(ctx context.Context, email string, code string) error {
+		EmailSenderHook: func(ctx context.Context, email string, code string) error {
 			fmt.Println("send to mail...")
 
 			return nil

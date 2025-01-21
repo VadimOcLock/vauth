@@ -51,7 +51,7 @@ func (c Client) Register(ctx context.Context, dto RegisterParams) error {
 	}); err != nil {
 		return werr.Wrap(err)
 	}
-	if err = c.sendEmailFn(ctx, dto.Email, confirmCode.Code); err != nil {
+	if err = c.emailSenderHook(ctx, dto.Email, confirmCode.Code); err != nil {
 		return werr.Wrap(err)
 	}
 

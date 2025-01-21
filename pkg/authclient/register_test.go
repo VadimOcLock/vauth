@@ -35,7 +35,7 @@ func TestClient_Register(t *testing.T) {
 
 		client, err := authclient.New(
 			authclient.Config{
-				SendEmailFn: sendEmailFn,
+				EmailSenderHook: sendEmailFn,
 			},
 			authclient.WithStore(mockStore),
 			authclient.WithHasher(mockHasher),
@@ -160,7 +160,7 @@ func TestClient_Register(t *testing.T) {
 				JWTConfig: jwtgen.CreatorConfig{
 					SecretKey: []byte("secret_key"),
 				},
-				SendEmailFn: sendEmailFn,
+				EmailSenderHook: sendEmailFn,
 			},
 			authclient.WithStore(mockStore),
 			authclient.WithHasher(mockHasher),
