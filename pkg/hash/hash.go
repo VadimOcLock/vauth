@@ -18,6 +18,8 @@ type hasherImpl struct {
 type Config struct {
 }
 
+// todo: passhash, New
+
 func NewHasher(cfg Config) Hasher {
 	return &hasherImpl{}
 }
