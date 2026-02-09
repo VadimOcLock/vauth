@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"errors"
+
 	"github.com/github.com/VadimOcLock/vauth/internal/store/pgstore"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"

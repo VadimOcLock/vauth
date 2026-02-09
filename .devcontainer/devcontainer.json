@@ -1,0 +1,25 @@
+{
+  "name": "vauth",
+  "image": "mcr.microsoft.com/devcontainers/go:1.23",
+  "workspaceFolder": "/workspaces/vauth",
+  "postCreateCommand": "go mod download",
+  "forwardPorts": [5430],
+  "portsAttributes": {
+    "5430": {
+      "label": "PostgreSQL (docker-compose)",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.Go",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "go.toolsManagement.autoUpdate": true,
+        "go.useLanguageServer": true
+      }
+    }
+  }
+}

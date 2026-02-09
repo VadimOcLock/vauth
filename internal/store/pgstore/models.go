@@ -9,13 +9,28 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type EmailConfirmation struct {
+	ID        uuid.UUID        `db:"id" json:"id"`
+	UserID    uuid.NullUUID    `db:"user_id" json:"user_id"`
+	Code      string           `db:"code" json:"code"`
+	ExpiresAt pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
+}
+
+type Token struct {
+	ID        uuid.UUID        `db:"id" json:"id"`
+	UserID    uuid.UUID        `db:"user_id" json:"user_id"`
+	Token     string           `db:"token" json:"token"`
+	Revoked   pgtype.Bool      `db:"revoked" json:"revoked"`
+	ExpiresAt pgtype.Timestamp `db:"expires_at" json:"expires_at"`
+	CreatedAt pgtype.Timestamp `db:"created_at" json:"created_at"`
+}
+
 type User struct {
 	ID           uuid.UUID        `db:"id" json:"id"`
 	Email        string           `db:"email" json:"email"`
 	PasswordHash string           `db:"password_hash" json:"password_hash"`
 	CreatedAt    pgtype.Timestamp `db:"created_at" json:"created_at"`
 	UpdatedAt    pgtype.Timestamp `db:"updated_at" json:"updated_at"`
-	Permissions  []byte           `db:"permissions" json:"permissions"`
-	IsActive     pgtype.Bool      `db:"is_active" json:"is_active"`
 	IsVerified   pgtype.Bool      `db:"is_verified" json:"is_verified"`
 }
